@@ -41,7 +41,7 @@ class HourlyWorker : public Worker
             if(hours <= 40)
                 cout<<"Week Salary:"<<hours*pay_per_hour<<endl;
             else
-                cout<<"Week Salary:"<<hours*pay_per_hour + 1.5*pay_per_hour*(hours-40)<<endl;
+                cout<<"Week Salary:"<<pay_per_hour*40 + 1.5*pay_per_hour*(hours-40)<<endl;
         }
 };
 
@@ -60,7 +60,7 @@ class SalariedWorker : public Worker
             if(hours >= 35)
                 cout<<"Week Salary:"<<pay_per_hour*40<<endl;
             else
-                cout<<"Week Salary:"<<hours + 0.5*pay_per_hour*(35-hours)<<endl;
+                cout<<"Week Salary:"<<pay_per_hour*hours + 0.5*pay_per_hour*(35-hours)<<endl;
         }
 };
 
@@ -76,7 +76,8 @@ int main()
     double hours;
     for(i=0; i<5; i++)
     {
-        cout<<"Please input the information of the "<<i+1<<"th worker:"<<endl;
+        cout<<"Please input the information of the "<<i+1<<"th worker:\n"
+            <<"name,age,gender,category(0:HourlyWorker,1:SalariedWorker) and pay_per_hour."<<endl;
         cin>>name;
         cin>>age;
         cin>>gender;
@@ -84,21 +85,29 @@ int main()
         cin>>pay_per_hour;
         if(category == 0)  //0:HourlyWorker,1:SalariedWorker
             workers[i] = new HourlyWorker(name, age, gender, pay_per_hour);
-        else
+        else if(category ==1)
             workers[i] = new SalariedWorker(name, age, gender, pay_per_hour);
+        else
+        {
+         cout<<"The parameter you input is wrong!"<<endl;
+         return 0;
+        }
+
     }
     cout<<"Here are the information of all the workers:"<<endl;
     for(i=0; i<5; i++)
     {
         cout<<i+1<<": "<<workers[i]->Name()<<endl;
     }
-    cout<<"Please choose one to show more information:"<<endl;
+
     while(1)
     {
+        cout<<"Please choose 1~5 to show more information and other value to exit:"<<endl;
         cin>>i;
         if(i>5 || i<1) break;
         cout<<*workers[i-1]<<endl;
-        cin>>hours;
+        cout<<"Please input the work hours:"<<endl;
+        cin>>hours; //input the work hours here!
         workers[i]->Compute_pay(hours);
     }
 
