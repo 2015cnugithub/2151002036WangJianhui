@@ -217,7 +217,6 @@ class Scene
         Scene(Vehicle *v)
         {
           pause = 0;
-          endScene = 0;
           vehicle = v;
         }
         void render()
@@ -231,7 +230,6 @@ class Scene
            {
                vehicle->run();
            }
-         return endScene;
         }
         void onKey(int key)
         {
@@ -240,10 +238,7 @@ class Scene
             {
               pause = !pause;
             }
-            if(key == 'E'||'e')
-            {
-                endScene = 1;
-            }
+
             if(key == '+')
             {
                 vehicle->speedUp();
@@ -253,6 +248,10 @@ class Scene
                 vehicle->speedDown();
             }
 
+        }
+        ~Scene()
+        {
+            delete vehicle;
         }
 
 };
